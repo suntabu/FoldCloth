@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class TestFoldCloth : MonoBehaviour
@@ -7,17 +9,25 @@ public class TestFoldCloth : MonoBehaviour
     public Mesh[] meshes;
     public float speed;
 
+    private Vector3 initialLocalPosition;
+
     void Start()
     {
-        var fc = GetComponent<FoldCloth>();
+        fc = GetComponent<FoldCloth>();
+        ResetMeshes(fc);
+
+        vertices = new Vector3[meshes[0].vertexCount];
+        initialLocalPosition = transform.localPosition;
+    }
+
+    private void ResetMeshes(FoldCloth fc)
+    {
         meshes = new[]
         {
             fc.CreatePhase1(),
             fc.CreatePhase2(),
             fc.CreatePhase3()
         };
-
-        vertices = new Vector3[meshes[0].vertexCount];
     }
 
     public float t;
@@ -53,30 +63,56 @@ public class TestFoldCloth : MonoBehaviour
     }
 
     private Vector3[] vertices;
+    public Vector3 targetJump;
+    public float jumpPower;
+    private FoldCloth fc;
 
-    void Update()
+
+    IEnumerator DoAnimation()
     {
-        t += Time.deltaTime * speed;
-
-        for (int i = 0; i < mesh.vertexCount; i++)
+        t = 0;
+        transform.localPosition = initialLocalPosition;
+        bool isFolding = true;
+        while (isFolding)
         {
-            if (t > 0.5f)
+            t += Time.deltaTime * speed;
+            for (int i = 0; i < mesh.vertexCount; i++)
             {
-                vertices[i] = Vector3.Lerp(meshes[1].vertices[i], meshes[2].vertices[i], (t - 0.5f) * 2);
+                if (t > 0.5f)
+                {
+                    vertices[i] = Vector3.Lerp(meshes[1].vertices[i], meshes[2].vertices[i], (t - 0.5f) * 2);
+                }
+                else
+                {
+                    vertices[i] = Vector3.Lerp(meshes[0].vertices[i], meshes[1].vertices[i], t * 2);
+                }
             }
-            else
+
+            if (t > 1)
             {
-                vertices[i] = Vector3.Lerp(meshes[0].vertices[i], meshes[1].vertices[i], t * 2);
+                isFolding = false;
             }
+
+            mesh.vertices = vertices;
+            meshFilter.mesh = mesh;
+            yield return null;
         }
 
-        if (t >= 1)
-        {
-            t = 0;
-        }
+        yield return transform.DOLocalJump(targetJump, jumpPower, 1, .25f, true).WaitForCompletion();
+        yield return new WaitForSeconds(1);
+    }
 
-        mesh.vertices = vertices;
-        meshFilter.mesh = mesh;
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(10, 10, 100, 100), "fold"))
+        {
+            StartCoroutine(DoAnimation());
+        }
+        
+        if (GUI.Button(new Rect(10, 120, 100, 100), "reset"))
+        {
+           ResetMeshes(fc);
+        }
     }
 
     [ContextMenu("Set 1")]

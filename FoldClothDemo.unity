@@ -563,6 +563,13 @@ MonoBehaviour:
   fx: 27.121
   gx: 25
   hx: 0
+  r1: 1
+  r2: 1
+  r3: 1
+  r4: 1
+  r5: 1
+  r6: 1
+  r7: 1
 --- !u!4 &1710470410
 Transform:
   m_ObjectHideFlags: 0
@@ -606,7 +613,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c275026663c5540f8a687bdc9da13c14, type: 2}
+  - {fileID: 2100000, guid: be5acf5830eb7a74ab0a1d83710cb1d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -643,3 +650,5 @@ MonoBehaviour:
   meshes: []
   speed: 1
   t: -6.21
+  targetJump: {x: 0, y: 0, z: 0}
+  jumpPower: 0
