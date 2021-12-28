@@ -9,7 +9,8 @@ public class FoldCloth : MonoBehaviour
     public float height = 100;
 
     public float thick = 3;
-
+    public float upAreaHeight = 3;
+    public float downAreaHeight = 3;
     public float hw
     {
         get { return width * 0.5f; }
@@ -152,8 +153,6 @@ public class FoldCloth : MonoBehaviour
     public Mesh CreatePhase3()
     {
         var mesh = new Mesh() {name = "cloth phase 3"};
-        var t1 = qw + thick;
-        var t2 = qw - thick;
         ax0 = ax1 = ax2 = ax3 = ax4 = ax5 = ax6 = ax7 = 0;
         bx0 = bx1 = bx2 = bx3 = bx4 = bx5 = bx6 = bx7 = -qw;
         cx0 = cx1 = cx2 = cx3 = cx4 = cx5 = cx6 = cx7 = -qw - thick * 0.707f;
@@ -220,10 +219,10 @@ public class FoldCloth : MonoBehaviour
 
         a0 = b0 = c0 = d0 = e0 = f0 = g0 = h0 = height / 6;
         a1 = b1 = c1 = d1 = e1 = f1 = g1 = h1 = -height / 6;
-        a2 = b2 = c2 = d2 = e2 = f2 = g2 = h2 = -height / 6 - thick;
+        a2 = b2 = c2 = d2 = e2 = f2 = g2 = h2 = -height / 6 - downAreaHeight;
         a3 = b3 = c3 = d3 = e3 = f3 = g3 = h3 = -height / 6;
         a4 = b4 = c4 = d4 = e4 = f4 = g4 = h4 = height / 6;
-        a5 = b5 = c5 = d5 = e5 = f5 = g5 = h5 = height / 6 + thick * 0.707f;
+        a5 = b5 = c5 = d5 = e5 = f5 = g5 = h5 = height / 6 + upAreaHeight * 0.707f;
         a6 = b6 = c6 = d6 = e6 = f6 = g6 = h6 = height / 6;
         a7 = b7 = c7 = d7 = e7 = f7 = g7 = h7 = -height / 6;
 
