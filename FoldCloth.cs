@@ -11,6 +11,7 @@ public class FoldCloth : MonoBehaviour
     public float thick = 3;
     public float upAreaHeight = 3;
     public float downAreaHeight = 3;
+
     public float hw
     {
         get { return width * 0.5f; }
@@ -41,6 +42,7 @@ public class FoldCloth : MonoBehaviour
     public float bx0, bx1, bx2, bx3, bx4, bx5, bx6, bx7;
     public float cx0, cx1, cx2, cx3, cx4, cx5, cx6, cx7;
     public float dx0, dx1, dx2, dx3, dx4, dx5, dx6, dx7;
+    public float ox0, ox1, ox2, ox3, ox4, ox5, ox6, ox7;
     public float ex0, ex1, ex2, ex3, ex4, ex5, ex6, ex7;
     public float fx0, fx1, fx2, fx3, fx4, fx5, fx6, fx7;
     public float gx0, gx1, gx2, gx3, gx4, gx5, gx6, gx7;
@@ -296,7 +298,11 @@ public class FoldCloth : MonoBehaviour
             V(dx0, d0, dz0), V(dx1, d1, dz1), V(dx2, d2, dz2), V(dx3, d3, dz3), V(dx4, d4, dz4),
             V(dx5, d5, dz5),
             V(dx6, d6, dz6), V(dx7, d7, dz7),
-
+            
+            V(ox0, d0, dz0), V(ox1, d1, dz1), V(ox2, d2, dz2), V(ox3, d3, dz3), V(ox4, d4, dz4),
+            V(ox5, d5, dz5),
+            V(ox6, d6, dz6), V(ox7, d7, dz7),
+            
             V(ex0, e0, ez0), V(ex1, e1, ez1), V(ex2, e2, ez2), V(ex3, e3, ez3), V(ex4, e4, ez4),
             V(ex5, e5, ez5),
             V(ex6, e6, ez6), V(ex7, e7, ez7),
@@ -335,7 +341,12 @@ public class FoldCloth : MonoBehaviour
             V(dx0, d0, dz0), V(dx1, d1, dz1), V(dx2, d2, dz2), V(dx3, d3, dz3), V(dx4, d4, dz4),
             V(dx5, d5, dz5),
             V(dx6, d6, dz6), V(dx7, d7, dz7),
-
+            
+        
+            V(ox0, d0, dz0), V(ox1, d1, dz1), V(ox2, d2, dz2), V(ox3, d3, dz3), V(ox4, d4, dz4),
+            V(ox5, d5, dz5),
+            V(ox6, d6, dz6), V(ox7, d7, dz7),
+            
             V(ex0, e0, ez0), V(ex1, e1, ez1), V(ex2, e2, ez2), V(ex3, e3, ez3), V(ex4, e4, ez4),
             V(ex5, e5, ez5),
             V(ex6, e6, ez6), V(ex7, e7, ez7),
