@@ -550,8 +550,8 @@ MonoBehaviour:
   width: 100
   height: 100
   thick: 3
-  upAreaHeight: 10
-  downAreaHeight: 3
+  upAreaHeight: 1
+  downAreaHeight: 10
   ax0: 0
   ax1: 0
   ax2: 0
@@ -584,6 +584,14 @@ MonoBehaviour:
   dx5: -20
   dx6: -25
   dx7: -25
+  ox0: 0
+  ox1: 0
+  ox2: 0
+  ox3: 0
+  ox4: 0
+  ox5: 0
+  ox6: 0
+  ox7: 0
   ex0: 30.000002
   ex1: 30.000002
   ex2: 27.5
@@ -620,10 +628,10 @@ MonoBehaviour:
   r1: 1.2
   r2: 1.1
   r3: 1.2
-  r4: 1.2
+  r4: 1
   r5: 0.8
-  r6: 1
-  r7: 1
+  r6: 0.8
+  r7: 0.8
 --- !u!4 &1710470410
 Transform:
   m_ObjectHideFlags: 0
