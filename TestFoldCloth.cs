@@ -28,6 +28,7 @@ public class TestFoldCloth : MonoBehaviour
             fc.CreatePhase2(),
             fc.CreatePhase3()
         };
+        _mesh = null;
     }
 
     public float t;
@@ -70,6 +71,8 @@ public class TestFoldCloth : MonoBehaviour
 
     IEnumerator DoAnimation()
     {
+        GetComponent<MeshRenderer>().material.SetFloat("_NormalScale", 0);
+
         t = 0;
         transform.localPosition = initialLocalPosition;
         bool isFolding = true;
@@ -98,6 +101,7 @@ public class TestFoldCloth : MonoBehaviour
             yield return null;
         }
 
+        GetComponent<MeshRenderer>().material.SetFloat("_NormalScale", 1);
         yield return transform.DOLocalJump(targetJump, jumpPower, 1, .25f, true).WaitForCompletion();
         yield return new WaitForSeconds(1);
     }
@@ -108,10 +112,10 @@ public class TestFoldCloth : MonoBehaviour
         {
             StartCoroutine(DoAnimation());
         }
-        
+
         if (GUI.Button(new Rect(10, 120, 100, 100), "reset"))
         {
-           ResetMeshes(fc);
+            ResetMeshes(fc);
         }
     }
 

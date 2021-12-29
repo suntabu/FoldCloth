@@ -5,6 +5,7 @@ Shader "Libii/URP/URP_2D_Texture_Outline"
         _MainTex("Diffuse", 2D) = "white" {}
         _NormalMap("Normal Map", 2D) = "bump" {}
 
+        _NormalScale("Normal Map Scale",Range(0,1)) = 0
         // Legacy properties. They're here so that materials using this shader can gracefully fallback to the legacy sprite shader.
         [HideInInspector] _Color("Tint", Color) = (1,1,1,1)
         [HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
@@ -74,7 +75,7 @@ Shader "Libii/URP/URP_2D_Texture_Outline"
             half4 _MainTex_ST;
             TEXTURE2D(_NormalMap);
             SAMPLER(sampler_NormalMap);
-
+            float _NormalScale;
             #if USE_SHAPE_LIGHT_TYPE_0
             SHAPE_LIGHT(0)
             #endif
@@ -112,15 +113,24 @@ Shader "Libii/URP/URP_2D_Texture_Outline"
 
             half4 CombinedShapeLightFragment(Varyings1 i) : SV_Target
             {
-                half n = dot(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, i.uv).rgb, half3(0, 0, 1)) + 0.5f;
-
+                half n = dot(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, i.uv).rgb, half3(0, 0, 1)) * _NormalScale +
+                    0.5f * (2 - _NormalScale);
                 const half4 main = n * i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
                 const half4 mask = float4(1, 1, 1, 1);
                 SurfaceData2D surfaceData;
                 InputData2D inputData;
 
+
                 InitializeSurfaceData(main.rgb, main.a, mask, surfaceData);
                 InitializeInputData(i.uv, i.lightingUV, inputData);
+
+                if (surfaceData.alpha < 0.5)
+                {
+                    surfaceData.alpha = 1;
+                    surfaceData.albedo = half3(1, 1, 1);
+                }
+
+
                 return CombinedShapeLightShared(surfaceData, inputData);
             }
             ENDHLSL
@@ -150,6 +160,10 @@ Shader "Libii/URP/URP_2D_Texture_Outline"
             half4 FragmentAlphaTest(Varyings input) : SV_Target
             {
                 half4 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+                if (c.a < 0.5)
+                {
+                    c.a = 1;
+                }
                 clip(c.a - _Cutoff);
                 return 1;
             }
